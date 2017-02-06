@@ -1,0 +1,12 @@
+{
+    "id": "me.lucassen.homeycontrol",
+    "name": {
+        "en": "HomeyControl"
+    },
+    "version": "0.0.1",
+    "compatibility": "1.x",
+    "author": {
+        "name": "Robin Lucassen",
+        "email": "robin@lucassen.me"
+    }
+}

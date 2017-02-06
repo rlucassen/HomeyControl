@@ -1,0 +1,168 @@
+﻿body {
+  font-size: 80%;
+}
+
+.no-margin {
+  margin: 0 !important;
+}
+
+#container {
+  padding: 5px;
+  background-color: #ccc;
+  border: 1px solid #666;
+}
+
+#house {
+  position: relative;
+  .chamber {
+    position: absolute;
+    border: 1px solid #666;
+    background-color: white;
+    background-repeat: no-repeat;
+    &[data-motion][data-alarm_motion="true"]{
+      animation: pulseinset 2s infinite;
+    }
+    .device {
+      position: absolute;
+    }
+  }
+  .door {
+    position: absolute;
+    border: 1px solid #666;
+    background-color: white;
+    box-sizing: content-box;
+    margin-top: -1px;
+    &[data-alarm_contact="true"] {
+      border-top-color: white;
+      border-bottom-color: white;
+    }
+  }
+}
+
+@keyframes pulseinset {
+  0% {    
+    box-shadow: none;
+  }
+  50% {
+    box-shadow: inset 0px 0px 1.5vw 0.5vw rgba(209,209,91,1);
+  }
+  100% {
+    box-shadow: none;
+  }
+}
+
+.device[data-type="lamp"], .device[data-type="dimlamp"]{
+  border: 1px solid #666;
+  margin-left: -20px;
+  margin-top: -20px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 50%;
+  background-color: #666;
+  &[data-onoff="true"]{
+    background-color: #dfdf8c;
+    box-shadow: 0px 0px 1.5vw 0.5vw rgba(209,209,91,1);
+  }
+}
+
+
+.device[data-type="dimlamp"][data-onoff="true"]{
+  &:after {
+    display: block;
+    width: 30px;
+    height: 14px;
+    content: attr(data-dim);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-top: -7px;
+    margin-left: -15px;
+    font-size: 10px;
+    text-align: center;
+  }
+}
+
+#general {
+  .general-device {
+    margin-bottom: 5px;
+    .general-device-container {
+      margin-left: 2.5px;
+      margin-right: 2.5px;
+      border: 1px solid #666;
+      background-color: white;
+      text-align: center;
+      h2 {
+        font-size: 1em;
+      }
+      i {
+        font-size: 3em;
+      }
+      p {
+        margin-bottom: 0;
+        font-size: 0.8em;
+      }
+    }
+    &:first-child .general-device-container {
+      margin-left: 0;
+    }
+    &:last-child .general-device-container {
+      margin-right: 0;
+    }
+  }
+
+  .general-device[data-type="presence"] {
+    .away {
+      display: none;
+    }
+    &[data-onoff="false"] {
+      .away {
+        display: block;
+      }
+      .home {
+        display: none;
+      }
+      i {
+        color: #ccc;
+      }
+    }
+  }
+
+  .general-device[data-type="thermostat"] {
+    p.temp {
+      font-size: 3em;
+      line-height: 1em;
+    }
+  }
+
+}
+
+.logger-block {
+  border: 1px solid #666;
+  height: 79px;
+  overflow-y: scroll;
+  margin-bottom: 0;
+  font-size: 0.8em;
+  line-height: 1em;
+  li {
+    &:nth-child(2n+1){
+      background-color: #eee;
+    }
+    &.device {
+      color: green;
+    }
+    &.notification {
+      color: red;
+    }
+  }
+}
+
+
+#devices {
+  .device-block{
+    border: 1px solid #666;
+    padding: 0.5em;
+    h2 {
+      font-size: 1.2em;
+    }
+  }
+}

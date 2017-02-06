@@ -1,0 +1,31 @@
+﻿<script>
+  var container = $('#container');
+  var scene = new THREE.Scene();
+  var camera = new THREE.PerspectiveCamera(75, container.width() / container.height(), 0.1, 1000);
+
+  var renderer = new THREE.WebGLRenderer();
+  renderer.setSize(container.width(), container.height());
+  container.append(renderer.domElement);
+
+  var geometry = new THREE.PlaneGeometry(43.4, 106.4, 32);
+  //var material = new THREE.MeshBasicMaterial({ color: 0xffff00, side: THREE.DoubleSide });
+  var material = new THREE.MeshBasicMaterial({ map: THREE.ImageUtils.loadTexture('/content/img/house.jpg') });
+  var plane = new THREE.Mesh(geometry, material);
+  scene.add(plane);
+
+  var spheregeometry = new THREE.SphereGeometry(1, 32, 32);
+  var spherematerial = new THREE.MeshBasicMaterial({ color: 0xffff00 });
+  var sphere = new THREE.Mesh(spheregeometry, spherematerial);
+  sphere.position.z = 20;
+  scene.add(sphere);
+
+  camera.position.z = 100;
+
+  function render() {
+    requestAnimationFrame(render);
+    renderer.render(scene, camera);
+  }
+  render();
+
+  controls = new THREE.OrbitControls(camera, renderer.domElement);
+</script>

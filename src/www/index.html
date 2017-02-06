@@ -1,0 +1,325 @@
+﻿<html>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <title>Homey Control</title>
+
+  <link rel="stylesheet" href="content/vendor/foundation/css/foundation.css" />
+  <link rel="stylesheet" href="content/vendor/font-awesome/css/font-awesome.min.css" />
+  <link rel="stylesheet" href="content/css/app.css" />
+
+  <script src="content/vendor/foundation/js/vendor/jquery.js"></script>
+  <script src="content/vendor/foundation/js/vendor/foundation.min.js"></script>
+  <script src="content/vendor/handlebars/handlebars-latest.js"></script>
+</head>
+<body>
+
+  <div class="row collapse">
+    <div class="large-12 columns">
+      <div class="row collapse">
+        <div class="large-8 small-6 columns">
+          <div id="general" class="row small-up-4 medium-up-8 collapse">
+          </div>
+        </div>
+        <div class="large-4 small-6 columns">
+          <ul class="logger-block">
+            
+          </ul>
+        </div>
+      </div>
+      <div id="container">
+        <div id="house">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="devices" class="row small-up-4">
+
+  </div>
+
+
+  <script id="deviceTemplate" type="text/x-handlebars-template">
+    <div class="column column-block">
+      <div class="device-block">
+        <h2>{{name}}</h2>
+        <p>{{id}}</p>
+        {{#each state}}
+        <p>
+          {{@key}}: {{this}}
+        </p>
+        {{/each}}
+      </div>
+    </div>
+  </script>
+
+  <script id="presenceTemplate" type="text/x-handlebars-template">
+    <div class="columns column-block general-device">
+      <div class="general-device-container">
+        <h2>presence</h2>
+        <i class="fa fa-user"></i>
+        <p class="home">thuis</p>
+        <p class="away">afwezig</p>
+      </div>
+    </div>
+  </script>
+
+  <script id="thermostatTemplate" type="text/x-handlebars-template">
+    <div class="columns column-block general-device">
+      <div class="general-device-container">
+        <h2>thermostaat</h2>
+        <p class="temp">{{state.target_temperature}}</p>
+        <p>{{state.measure_temperature}}</p>
+      </div>
+    </div>
+  </script>
+
+  <script src="config.js"></script>
+
+  <script>
+    var devices = [];
+    var socket;
+
+    var houseDiv = $('#house');
+    var devicesList = $('#devices');
+    var generalDiv = $('#general');
+
+    var deviceTemplate = $('#deviceTemplate').html();
+    var presenceTemplate = $('#presenceTemplate').html();
+
+
+    var drawGeneral = function () {
+      for (var deviceId in houseMapping.general.devices) {
+        var device = houseMapping.general.devices[deviceId];
+        var homeyDevice = devices[deviceId];
+
+        var template = Handlebars.compile($('#' + device.type + 'Template').html());
+        var deviceDiv = $(template(homeyDevice));
+
+        deviceDiv.attr('id', deviceId);
+        deviceDiv.attr('data-type', device.type);
+        for (var state in homeyDevice.state) {
+          var stateValue = homeyDevice.state[state];
+          deviceDiv.attr('data-' + state, stateValue);
+        }
+
+        generalDiv.append(deviceDiv);
+
+      }
+    }
+
+    var drawHouse = function () {
+      var ratio = houseDiv.width() / houseMapping.width;
+
+      houseDiv.height(houseMapping.height * ratio);
+
+      for (var chamberKey in houseMapping.chambers) {
+        if (houseMapping.chambers.hasOwnProperty(chamberKey)) {
+          var chamber = houseMapping.chambers[chamberKey];
+          var chamberDiv = $('<div id="' + chamberKey + '" class="chamber">');
+          chamberDiv.width(chamber.width * ratio);
+          chamberDiv.height(chamber.height * ratio);
+          chamberDiv.css('left', chamber.x * ratio);
+          chamberDiv.css('top', chamber.y * ratio);
+          chamberDiv.css('background-image', 'url("' + chamber.background + '")');
+          chamberDiv.css('background-size', (chamber.width * ratio) + 'px ' + (chamber.height * ratio) + 'px');
+          houseDiv.append(chamberDiv);
+
+          if (chamber.motion) {
+            chamberDiv.attr('data-motion', chamber.motion);
+            var homeyMotion = devices[chamber.motion];
+            chamberDiv.attr('data-alarm_motion', homeyMotion.state.alarm_motion);
+          }
+
+          for (var deviceId in chamber.devices) {
+            var device = chamber.devices[deviceId];
+            var deviceDiv = $('<div id="' + deviceId + '" class="device">');
+            deviceDiv.css('left', device.x * ratio);
+            deviceDiv.css('top', device.y * ratio);
+
+            deviceDiv.attr('data-type', device.type);
+
+            var homeyDevice = devices[deviceId];
+            for (var state in homeyDevice.state) {
+              var stateValue = homeyDevice.state[state];
+              deviceDiv.attr('data-' + state, stateValue);
+            }
+
+            deviceDiv.click(function () {
+              var deviceDiv = $(this);
+              sendMessage(deviceDiv.attr('id'), 'onoff', deviceDiv.attr('data-onoff') != 'true');
+            });
+
+            chamberDiv.append(deviceDiv);
+          }
+        }
+      }
+      for (var doorId in houseMapping.doors) {
+        var door = houseMapping.doors[doorId];
+        var doorDiv = $('<div id="' + doorId + '" class="door">');
+        doorDiv.width(door.width * ratio);
+        doorDiv.height(door.height * ratio);
+        doorDiv.css('left', door.x * ratio);
+        doorDiv.css('top', door.y * ratio);
+
+        var doorDevice = devices[doorId];
+        for (var state in doorDevice.state) {
+          var stateValue = doorDevice.state[state];
+          doorDiv.attr('data-' + state, stateValue);
+        }
+
+        houseDiv.append(doorDiv);
+      }
+    }
+
+    var startSocket = function () {
+      socket = new WebSocket('ws://' + homeyIp + '/socket.io/?EIO=3&transport=websocket');
+
+      socket.onopen = function () {
+        for (var id in devices) {
+          if (devices.hasOwnProperty(id)) {
+            socket.send('40/realtime/device/' + id + '/');
+          }
+        }
+        socket.send('40/realtime/manager/notifications/');
+
+        setInterval(function () { socket.send('2'); }, 50000);
+      };
+
+      socket.onmessage = function (event) {
+
+        if (parseInt(event.data) === 42) {
+          processMessage(event.data);
+        }
+      };
+
+      socket.onclose = function () {
+        console.log('socket closed');
+      }
+    }
+
+    var processMessage = function (message) {
+
+      var number = parseInt(event.data);
+      var path = message.split(',')[0];
+
+      var type = path.split('/')[2];
+
+      switch (type) {
+        case 'device':
+          processDeviceStateMessage(message);
+          break;
+        case 'manager':
+          processManagerMessage(message);
+          break;
+        default:
+          console.log(message);
+          return;
+      }
+
+    }
+
+    var processDeviceStateMessage = function (message) {
+      var path = message.split(',')[0];
+      var pathParts = path.split('/');
+      var messageData = JSON.parse(message.substring(message.indexOf(',') + 1));
+
+      var deviceId = pathParts[3];
+      var stateId = messageData[0];
+      var stateValue = messageData[1];
+
+      devices[deviceId].state[stateId] = stateValue;
+      processDevices();
+
+      log('device', devices[deviceId].name + ': ' + stateId + ' = ' + stateValue);
+
+      $('#' + deviceId).attr('data-' + stateId, stateValue);
+
+      if (stateId === 'alarm_motion') {
+        $('[data-motion="' + deviceId + '"]').attr('data-' + stateId, stateValue);
+      }
+    }
+
+    var processManagerMessage = function(message) {
+      var path = message.split(',')[0];
+      var manager = path.split('/')[3];
+      var messageData = JSON.parse(message.substring(message.indexOf(',') + 1));
+
+      switch(manager) {
+        case 'notifications':
+          log('notification', messageData[1].excerpt);
+          break;
+        default:
+          console.log(message);
+          return;
+      }
+    }
+
+    var sendMessage = function (device, stateId, stateValue) {
+      var message = {};
+      message[stateId] = stateValue;
+      $.ajax({
+        url: 'http://' + homeyIp + '/api/manager/devices/device/' + device + '/state/',
+        method: 'PUT',
+        headers: {
+          'Authorization': 'Bearer ' + bearerToken
+        },
+        contentType: "application/json",
+        data: JSON.stringify(message),
+        error: function (d) {
+          debugger;
+        }
+      });
+    }
+
+
+    var processDevices = function () {
+      devicesList.html('');
+
+      for (var id in devices) {
+        var device = devices[id];
+        deviceHtml(device);
+      }
+    }
+
+    var deviceHtml = function (device) {
+      var template = Handlebars.compile(deviceTemplate);
+      var deviceHtml = template(device);
+      devicesList.append(deviceHtml);
+    }
+
+    var log = function(type, message) {
+      var timedMessage = new Date().toLocaleString() + ': ' + message;
+      var li = $('<li>' + timedMessage + '</li>').addClass(type);
+      $('.logger-block').prepend(li);
+      console.log(timedMessage);
+    }
+
+    $(function () {
+      $.ajax({
+        url: 'http://' + homeyIp + '/api/manager/devices/device/',
+        method: 'GET',
+        crossDomain: true,
+        headers: {
+          'Authorization': 'Bearer ' + bearerToken
+        },
+        success: function (data) {
+          devices = data.result;
+          processDevices();
+
+          drawGeneral();
+          drawHouse();
+
+          startSocket();
+        },
+        error: function (error) {
+          debugger;
+        }
+
+      });
+    });
+
+  </script>
+
+</body>
+</html>
