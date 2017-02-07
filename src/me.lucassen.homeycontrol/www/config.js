@@ -1,4 +1,4 @@
-﻿var bearerToken = '';
+﻿var bearerToken = '2fb82d2ee1b77f1eb04a8391ec8a14b4ac109823';
 var homeyIp = '192.168.178.12';
 var houseMapping = {
   width: 16160,

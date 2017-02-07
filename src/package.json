@@ -1,0 +1,9 @@
+{
+  "name": "homey-control.start",
+  "version": "0.0.0",
+  "description": "HomeyControl.Start",
+  "main": "app.js",
+  "author": {
+    "name": "robin"
+  }
+}

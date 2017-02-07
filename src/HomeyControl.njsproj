@@ -1,125 +1,136 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+    <Name>HomeyControl</Name>
+    <RootNamespace>HomeyControl</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{6ec0528c-5e5b-4481-8e63-3952fb82eb9f}</ProjectGuid>
-    <ProjectHome />
-    <ProjectView>ShowAllFiles</ProjectView>
+    <ProjectGuid>cb3aae63-ee88-4187-9f37-f2bad7cc76cc</ProjectGuid>
+    <ProjectHome>.</ProjectHome>
     <StartupFile>app.js</StartupFile>
+    <StartWebBrowser>False</StartWebBrowser>
+    <SearchPath>
+    </SearchPath>
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
-    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{349c5851-65df-11da-9384-00065b846f21};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">11.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <NodeExeArguments>
-    </NodeExeArguments>
-    <StartWebBrowser>True</StartWebBrowser>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <ProjectTypeGuids>{3AF33F2E-1136-4D97-BBB7-1795711AC8B8};{9092AA53-FB77-4645-B42D-1CCCA6BD08BD}</ProjectTypeGuids>
+    <ProjectView>ShowAllFiles</ProjectView>
+    <StartWebBrowser>false</StartWebBrowser>
   </PropertyGroup>
-  <PropertyGroup Condition="'$(Configuration)' == 'Debug'" />
-  <PropertyGroup Condition="'$(Configuration)' == 'Release'" />
+  <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)' == 'Release' ">
+    <DebugSymbols>true</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
-    <Content Include="app.json" />
-    <Content Include="compilerconfig.json" />
     <Compile Include="app.js" />
-    <Content Include="assets\icon.svg" />
-    <Content Include="locales\en.json" />
-    <Content Include="www\3d.html" />
-    <Content Include="www\index.html" />
-    <Compile Include="www\config.js" />
-    <Content Include="www\content\css\app.css" />
-    <Content Include="www\content\css\app.min.css" />
-    <Content Include="www\content\img\gang.jpg" />
-    <Content Include="www\content\img\house.jpg" />
-    <Content Include="www\content\img\woonkamer.jpg" />
-    <Content Include="www\content\vendor\font-awesome\HELP-US-OUT.txt" />
-    <Content Include="www\content\vendor\foundation\index.html" />
-    <Compile Include="www\content\vendor\handlebars\handlebars-latest.js" />
-    <Compile Include="www\content\vendor\threejs\three.js" />
-    <Compile Include="www\content\vendor\threejs\three.min.js" />
-    <Compile Include="www\content\vendor\threejs\three.module.js" />
-    <Content Include="www\content\vendor\font-awesome\css\font-awesome.css" />
-    <Content Include="www\content\vendor\font-awesome\css\font-awesome.min.css" />
-    <Content Include="www\content\vendor\font-awesome\fonts\fontawesome-webfont.svg" />
-    <Content Include="www\content\vendor\foundation\css\app.css" />
-    <Content Include="www\content\vendor\foundation\css\foundation.css" />
-    <Content Include="www\content\vendor\foundation\css\foundation.min.css" />
-    <Compile Include="www\content\vendor\foundation\js\app.js" />
-    <Compile Include="www\content\vendor\foundation\js\vendor\foundation.js" />
-    <Compile Include="www\content\vendor\foundation\js\vendor\foundation.min.js" />
-    <Compile Include="www\content\vendor\foundation\js\vendor\jquery.js" />
-    <Compile Include="www\content\vendor\foundation\js\vendor\what-input.js" />
-    <Compile Include="www\content\vendor\threejs\controls\OrbitControls.js" />
+    <Compile Include="me.lucassen.homeycontrol\app.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\config.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\content\vendor\foundation\js\app.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\content\vendor\foundation\js\vendor\foundation.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\content\vendor\foundation\js\vendor\foundation.min.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\content\vendor\foundation\js\vendor\jquery.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\content\vendor\foundation\js\vendor\what-input.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\content\vendor\handlebars\handlebars-latest.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\content\vendor\threejs\controls\OrbitControls.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\content\vendor\threejs\three.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\content\vendor\threejs\three.min.js" />
+    <Compile Include="me.lucassen.homeycontrol\www\content\vendor\threejs\three.module.js" />
+    <Content Include="me.lucassen.homeycontrol\app.json" />
+    <Content Include="me.lucassen.homeycontrol\assets\icon.svg" />
+    <Content Include="me.lucassen.homeycontrol\compilerconfig.json" />
+    <Content Include="me.lucassen.homeycontrol\compilerconfig.json.defaults" />
+    <Content Include="me.lucassen.homeycontrol\locales\en.json" />
+    <Content Include="me.lucassen.homeycontrol\www\3d.html" />
+    <Content Include="me.lucassen.homeycontrol\www\config.js.template" />
+    <Content Include="me.lucassen.homeycontrol\www\content\css\app.css" />
+    <Content Include="me.lucassen.homeycontrol\www\content\css\app.min.css" />
+    <Content Include="me.lucassen.homeycontrol\www\content\css\app.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\img\gang.jpg" />
+    <Content Include="me.lucassen.homeycontrol\www\content\img\house.jpg" />
+    <Content Include="me.lucassen.homeycontrol\www\content\img\woonkamer.jpg" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\css\font-awesome.css" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\css\font-awesome.min.css" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\fonts\fontawesome-webfont.svg" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\fonts\FontAwesome.otf" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\HELP-US-OUT.txt" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\animated.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\bordered-pulled.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\core.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\fixed-width.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\font-awesome.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\icons.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\larger.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\list.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\mixins.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\path.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\rotated-flipped.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\screen-reader.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\stacked.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\variables.less" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\font-awesome.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_animated.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_bordered-pulled.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_core.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_fixed-width.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_icons.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_larger.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_list.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_mixins.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_path.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_rotated-flipped.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_screen-reader.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_stacked.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\_variables.scss" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\foundation\css\app.css" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\foundation\css\foundation.css" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\foundation\css\foundation.min.css" />
+    <Content Include="me.lucassen.homeycontrol\www\content\vendor\foundation\index.html" />
+    <Content Include="me.lucassen.homeycontrol\www\index.html" />
+    <Content Include="package.json" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="assets" />
-    <Folder Include="locales" />
+    <Folder Include="me.lucassen.homeycontrol\" />
+    <Folder Include="me.lucassen.homeycontrol\assets\" />
+    <Folder Include="me.lucassen.homeycontrol\locales\" />
+    <Folder Include="me.lucassen.homeycontrol\www\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\css\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\img\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\js\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\css\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\fonts\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\less\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\font-awesome\scss\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\foundation\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\foundation\css\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\foundation\js\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\foundation\js\vendor\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\handlebars\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\threejs\" />
+    <Folder Include="me.lucassen.homeycontrol\www\content\vendor\threejs\controls\" />
     <Folder Include="typings\" />
     <Folder Include="typings\globals\" />
     <Folder Include="typings\globals\node\" />
-    <Folder Include="www" />
-    <Folder Include="www\content" />
-    <Folder Include="www\content\css" />
-    <Folder Include="www\content\img" />
-    <Folder Include="www\content\js" />
-    <Folder Include="www\content\vendor" />
-    <Folder Include="www\content\vendor\font-awesome" />
-    <Folder Include="www\content\vendor\font-awesome\css" />
-    <Folder Include="www\content\vendor\font-awesome\fonts" />
-    <Folder Include="www\content\vendor\font-awesome\less" />
-    <Folder Include="www\content\vendor\font-awesome\scss" />
-    <Folder Include="www\content\vendor\foundation" />
-    <Folder Include="www\content\vendor\foundation\css" />
-    <Folder Include="www\content\vendor\foundation\js" />
-    <Folder Include="www\content\vendor\foundation\js\vendor" />
-    <Folder Include="www\content\vendor\handlebars" />
-    <Folder Include="www\content\vendor\threejs" />
-    <Folder Include="www\content\vendor\threejs\controls" />
   </ItemGroup>
   <ItemGroup>
     <TypeScriptCompile Include="typings\globals\node\index.d.ts" />
     <TypeScriptCompile Include="typings\index.d.ts" />
   </ItemGroup>
-  <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
-  <!--Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them.-->
+  <!-- Do not delete the following Import Project.  While this appears to do nothing it is a marker for setting TypeScript properties before our import that depends on them. -->
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\TypeScript\Microsoft.TypeScript.targets" Condition="False" />
   <Import Project="$(VSToolsPath)\Node.js Tools\Microsoft.NodejsTools.targets" />
-  <ProjectExtensions>
-    <VisualStudio>
-      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
-        <WebProjectProperties>
-          <UseIIS>False</UseIIS>
-          <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>0</DevelopmentServerPort>
-          <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:48022/</IISUrl>
-          <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>True</UseCustomServer>
-          <CustomServerUrl>http://localhost:1337</CustomServerUrl>
-          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-        </WebProjectProperties>
-      </FlavorProperties>
-      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}" User="">
-        <WebProjectProperties>
-          <StartPageUrl>
-          </StartPageUrl>
-          <StartAction>CurrentPage</StartAction>
-          <AspNetDebugging>True</AspNetDebugging>
-          <SilverlightDebugging>False</SilverlightDebugging>
-          <NativeDebugging>False</NativeDebugging>
-          <SQLDebugging>False</SQLDebugging>
-          <ExternalProgram>
-          </ExternalProgram>
-          <StartExternalURL>
-          </StartExternalURL>
-          <StartCmdLineArguments>
-          </StartCmdLineArguments>
-          <StartWorkingDirectory>
-          </StartWorkingDirectory>
-          <EnableENC>False</EnableENC>
-          <AlwaysStartWebServerOnDebug>False</AlwaysStartWebServerOnDebug>
-        </WebProjectProperties>
-      </FlavorProperties>
-    </VisualStudio>
-  </ProjectExtensions>
 </Project>

@@ -255,3 +255,4 @@ paket-files/
 compilerconfig.json
 compilerconfig.json.defaults
 src/typings/
+src/www/config.js
